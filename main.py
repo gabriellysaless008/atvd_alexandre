@@ -102,11 +102,10 @@ def excluir_usuario():
         listar_usuarios()
     except Exception as e:
         messagebox.showerror("Erro", f"Erro ao excluir usuário: {e}")
-    
+
 janela = tk.Tk()
 
 janela.title("Cadastro de Usuários")
-janela.geometry("480x400")
 
 tk.Label(janela, text="Nome:").grid(row=0, column=0, padx=5, pady=5)
 entrada_nome = tk.Entry(janela)
@@ -140,8 +139,10 @@ tk.Label(janela, text="Último Acesso:").grid(row=7, column=0, padx=5, pady=5)
 entrada_ultimo_acesso = tk.Entry(janela)
 entrada_ultimo_acesso.grid(row=7, column=1, padx=5, pady=5)
 
+# ... (código dos Entrys igual ao seu) ...
+
 frame_botoes = tk.Frame(janela)
-frame_botoes.grid(row=8, column=0, columnspan=2, pady=10)
+frame_botoes.grid(row=8, column=0, columnspan=2, pady=10, sticky="w", padx=5)
 
 tk.Button(frame_botoes, text="Cadastrar", command=cadastrar_usuario).pack(side=tk.LEFT, padx=5)
 tk.Button(frame_botoes, text="Atualizar", command=atualizar_usuario).pack(side=tk.LEFT, padx=5)
@@ -151,27 +152,24 @@ tk.Button(frame_botoes, text="Limpar Campos", command=limpar_campos).pack(side=t
 colunas = ("ID", "Nome", "Email", "Senha", "Tipo", "Status", "Telefone", "Data de Cadastro", "Último Acesso")
 tabela = ttk.Treeview(janela, columns=colunas, show="headings")
 
-tabela.heading("ID", text="ID")
-tabela.heading("Nome", text="Nome")
-tabela.heading("Email", text="Email")
-tabela.heading("Senha", text="Senha")
-tabela.heading("Tipo", text="Tipo")
-tabela.heading("Status", text="Status")
-tabela.heading("Telefone", text="Telefone")
-tabela.heading("Data de Cadastro", text="Data de Cadastro")
-tabela.heading("Último Acesso", text="Último Acesso")
+for col in colunas:
+    tabela.heading(col, text=col)
 
-tabela.column("ID", width=50, anchor=tk.CENTER)
-tabela.column("Nome", width=200, anchor=tk.W)
-tabela.column("Email", width=100, anchor=tk.E)
-tabela.column("Senha", width=100, anchor=tk.E)
-tabela.column("Tipo", width=100, anchor=tk.E)
-tabela.column("Status", width=100, anchor=tk.E)
-tabela.column("Telefone", width=100, anchor=tk.E)
-tabela.column("Data de Cadastro", width=100, anchor=tk.E)
-tabela.column("Último Acesso", width=100, anchor=tk.E)
+tabela.column("ID", width=40, anchor=tk.CENTER)
+tabela.column("Nome", width=150, anchor=tk.W)
+tabela.column("Email", width=150, anchor=tk.W)
+tabela.column("Senha", width=80, anchor=tk.CENTER)
+tabela.column("Tipo", width=80, anchor=tk.CENTER)
+tabela.column("Status", width=80, anchor=tk.CENTER)
+tabela.column("Telefone", width=100, anchor=tk.CENTER)
+tabela.column("Data de Cadastro", width=110, anchor=tk.CENTER)
+tabela.column("Último Acesso", width=110, anchor=tk.CENTER)
 
-tabela.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
+# MUDANÇA AQUI: row=9 (antes estava row=8, em cima dos botões)
+tabela.grid(row=9, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
+
+# Aumente a largura da janela para caber a tabela sem espremer os Entrys
+janela.geometry("950x600")
 
 tabela.bind("<<TreeviewSelect>>", selecionar_usuario)
 
